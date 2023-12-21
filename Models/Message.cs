@@ -6,12 +6,12 @@ namespace ProjectEweis.Models
     public class Message
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
+        public string ReceiverId { get; set; }
+        public string SenderId { get; set; }
         public string Text { get; set; }
         public DateTime When { get; set; }
-        public string UserId { get; set; }
-        [ForeignKey("UserId")]
-        public ApplicationUser AppUser { get; set; }
+        public bool Deleted { get; set; }
+        public string RequestId { get; set; }
+       
     }
 }
