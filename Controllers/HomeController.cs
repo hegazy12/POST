@@ -64,6 +64,12 @@ namespace ProjectEweis.Controllers
             return _POST.GetAllPosts();
         }
 
+        [HttpGet]
+        public AllPosts GetPostByType(int type)
+        {
+            return _POST.GetPostsByType(type);
+        }
+
 
         [HttpGet]
         public AllPosts GetmyPosts(string Iduser)

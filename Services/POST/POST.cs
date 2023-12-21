@@ -81,5 +81,15 @@ namespace ProjectEweis.Services.POST
                 real_Estate_Yes = _db.real_estate_yess.Include(m => m.Owner).Where(m => m.Owner.Id == Iduser && m.Deleted == 0).ToList(),
             };
         }
+
+        public AllPosts GetPostsByType(int type)
+        {
+            return new AllPosts()
+            {
+                
+                real_Estate_No = _db.real_estate_nos.Include(m => m.Owner).Where(m => m.Deleted == 0&m.property_type==type).ToList(),
+                real_Estate_Yes = _db.real_estate_yess.Include(m => m.Owner).Where(m => m.Deleted == 0&m.property_type==type).ToList(),
+            };
+        }
     }
 }
