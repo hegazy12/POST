@@ -29,18 +29,18 @@ namespace ProjectEweis.Hubs
 
         public Task SendMessageToGroup(string receiverId,string senderId, string message,string requestId)
         {
-            //Message message1 = new Message
-            //{
-            //    ReceiverId = receiverId,
-            //    SenderId = senderId,
-            //    RequestId = requestId,
-            //    Text = message,
-            //    When = DateTime.Now,
-            //    Deleted = false
-            //};
-            //_db.Messages.Add(message1);
-            //_db.SaveChanges();
-            //var grbName = receiverId += senderId;
+            Message message1 = new Message
+            {
+                ReceiverId = receiverId,
+                SenderId = senderId,
+                RequestId = requestId,
+                Text = message,
+                When = DateTime.Now,
+                Deleted = false
+            };
+            _db.Messages.Add(message1);
+            _db.SaveChanges();
+          //  var grbName = receiverId += senderId;
 
             return Clients.Group(receiverId).SendAsync("ReceiveMessage", senderId, message);
         }
