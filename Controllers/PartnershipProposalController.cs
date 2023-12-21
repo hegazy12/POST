@@ -8,10 +8,10 @@ using ProjectEweis.ModelView.POSTVM;
 namespace ProjectEweis.Controllers
 {
    // [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PartnershipProposalController : ControllerBase
-    {
+    //[Route("api/[controller]")]
+    //[ApiController]
+    //public class PartnershipProposalController : ControllerBase
+    //{
         //private readonly ApplicationDbContext _db;
         //public PartnershipProposalController(ApplicationDbContext db)
         //{
@@ -48,5 +48,5 @@ namespace ProjectEweis.Controllers
         //    _db.SaveChanges();
         //    return Ok(new {message= "تم إضافة العرض بنجاح" });
         //}
-    }
+   // }
 }

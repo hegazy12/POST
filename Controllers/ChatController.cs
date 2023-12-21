@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ProjectEweis.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class ChatController : ControllerBase
     {
@@ -13,6 +13,7 @@ namespace ProjectEweis.Controllers
         {
             _db = db;
         }
+
         [HttpGet("GetMesssages/{requestId}")]
         public IActionResult GetMesssages(string requestId)
         {
@@ -21,8 +22,9 @@ namespace ProjectEweis.Controllers
                 var messages=_db.Messages.Where(a => a.RequestId == requestId).ToList();
                 return Ok(messages);
             }
-
             return NotFound();
         }
+
+
     }
 }
