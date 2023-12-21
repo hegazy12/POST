@@ -27,7 +27,7 @@ namespace ProjectEweis.Controllers
         private readonly IRequest _Request;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext db;
-      //  private readonly IHubContext<ChatHub> _hubContext;
+     
 
         public HomeController(IPOST POST , IRequest Request, UserManager<ApplicationUser> userManager, ApplicationDbContext _db)
         {
@@ -35,7 +35,7 @@ namespace ProjectEweis.Controllers
             _Request = Request;
             _userManager = userManager;
             db = _db;
-          //  _hubContext = hubContext;
+          
         }
 
         [HttpPost]

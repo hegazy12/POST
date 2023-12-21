@@ -15,6 +15,7 @@ using ProjectEweis.Services.Request;
 using ProjectEweis.Hubs;
 using Microsoft.AspNet.SignalR;
 using IRequest = ProjectEweis.Services.Request.IRequest;
+using ProjectEweis.Services.Love;
 
 namespace ProjectEweis
 {
@@ -30,18 +31,9 @@ namespace ProjectEweis
             builder.Services.AddScoped<ILoginSystem, LoginSystem>();
             builder.Services.AddScoped<IPOST, POST>();
             builder.Services.AddScoped<IRequest, Request>();
-           
-            //builder.Services.AddCors(a => a.AddPolicy(
-            //  name: "AllowOrigin",
-            //  builder => {
-            //      builder
-            //      .AllowAnyOrigin()
-            //      .AllowAnyMethod()
-            //       .AllowCredentials()
-            //      .AllowAnyHeader()
-            //      .WithOrigins("https://localhost:44327/");
-            //      }
-            //  ));
+            builder.Services.AddScoped<ILove,Love>();
+
+            
             builder.Services.AddEndpointsApiExplorer();
           
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -80,18 +72,11 @@ namespace ProjectEweis
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            //app.UseCors(builder =>
-            //{
-            //    builder
-            //   .AllowAnyOrigin()
-            //   .AllowAnyMethod()
-            //   .AllowAnyHeader();
-            //});
-            app.UseCors(x => x
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .SetIsOriginAllowed(origin => true) // allow any origin
-        .AllowCredentials()); // allow credentials
+           
+            app.UseCors(x => x .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .SetIsOriginAllowed(origin => true) // allow any origin
+                                .AllowCredentials()); // allow credentials
 
             app.UseHttpsRedirection();
             app.MapHub<ChatHub>("/chathub");

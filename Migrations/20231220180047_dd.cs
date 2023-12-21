@@ -14,12 +14,12 @@ namespace ProjectEweis.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReactorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReactorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Deleted = table.Column<int>(type: "int", nullable: false),
-                    commercialID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    real_estate_yesID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    real_estate_noID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    commercialID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    real_estate_yesID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    real_estate_noID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,21 +30,21 @@ namespace ProjectEweis.Migrations
                         principalSchema: "Post",
                         principalTable: "commercial",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_LOVE_ON_Post_real_estate_no_real_estate_noID",
                         column: x => x.real_estate_noID,
                         principalSchema: "Post",
                         principalTable: "real_estate_no",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_LOVE_ON_Post_real_estate_yes_real_estate_yesID",
                         column: x => x.real_estate_yesID,
                         principalSchema: "Post",
                         principalTable: "real_estate_yes",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_LOVE_ON_Post_users_ReactorId",
                         column: x => x.ReactorId,

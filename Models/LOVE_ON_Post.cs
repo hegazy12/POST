@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using TestApiJWT.Models;
 
 namespace ProjectEweis.Models
@@ -9,12 +10,16 @@ namespace ProjectEweis.Models
         
             [Key]
             public Guid ID { get; set; }
+            [Required]
             public ApplicationUser Reactor { get; set; }
             public DateTime DateCreated { get; set; } = DateTime.Now;
             public int Deleted { get; set; } = 0;
-            public commercial commercial { get; set; }
-            public real_estate_yes real_estate_yes { get; set; }
-            public real_estate_no real_estate_no { get; set; }
+            [AllowNull]    
+            public string commercialID { get; set; }
+            [AllowNull]
+            public string real_estate_yesID { get; set; }
+            [AllowNull]
+            public string real_estate_noID { get; set; }
         
     }
 }

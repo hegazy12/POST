@@ -4,6 +4,7 @@ using DAL.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectEweis.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231220210254_Love_On_POST")]
+    partial class Love_On_POST
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,21 +220,24 @@ namespace ProjectEweis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("commercialID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("commercialID")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("real_estate_noID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("real_estate_noID")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("real_estate_yesID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("real_estate_yesID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
                     b.HasIndex("ReactorId");
+
+                    b.HasIndex("commercialID");
+
+                    b.HasIndex("real_estate_noID");
+
+                    b.HasIndex("real_estate_yesID");
 
                     b.ToTable("LOVE_ON_Post");
                 });
@@ -622,7 +627,31 @@ namespace ProjectEweis.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ProjectEweis.Models.commercial", "commercial")
+                        .WithMany()
+                        .HasForeignKey("commercialID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectEweis.Models.real_estate_no", "real_estate_no")
+                        .WithMany()
+                        .HasForeignKey("real_estate_noID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectEweis.Models.real_estate_yes", "real_estate_yes")
+                        .WithMany()
+                        .HasForeignKey("real_estate_yesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Reactor");
+
+                    b.Navigation("commercial");
+
+                    b.Navigation("real_estate_no");
+
+                    b.Navigation("real_estate_yes");
                 });
 
             modelBuilder.Entity("ProjectEweis.Models.Message", b =>

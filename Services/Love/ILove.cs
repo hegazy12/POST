@@ -1,5 +1,6 @@
 ﻿using ProjectEweis.Models;
 using ProjectEweis.ModelView.LOVEVM;
+using ProjectEweis.ModelView.POSTVM;
 
 namespace ProjectEweis.Services.Love
 {
