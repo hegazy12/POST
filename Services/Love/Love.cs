@@ -16,10 +16,9 @@ namespace ProjectEweis.Services.Love
         {
            
 
-            var x = _db.LOVE_ON_Post.Where(m => m.Reactor.Id == VM.Reactor &&
-                                                             (m.commercialID == VM.commercial ||
-                                                              m.real_estate_noID == VM.real_estate_no ||
-                                                              m.real_estate_yesID == VM.real_estate_yes)).ToList();
+            var x = _db.LOVE_ON_Post.Where(m => m.Reactor.Id == VM.Reactor && m.commercialID == VM.commercial &&  m.real_estate_noID == VM.real_estate_no &&  m.real_estate_yesID == VM.real_estate_yes)
+                                                              .ToList();
+
             if (x.Count >= 1)
             {
                 return "you add this love in list love befor";
@@ -33,9 +32,7 @@ namespace ProjectEweis.Services.Love
 
                 if (Reactor != null && (commercial != null || real_estate_no != null || real_estate_yes != null) )
                 {
-                    VM.commercial = (VM.commercial == "string") ? "????" : VM.commercial;
-                    VM.real_estate_no = (VM.real_estate_no == "string") ? "????" : VM.real_estate_no;
-                    VM.real_estate_yes = (VM.commercial == "string") ? "????" : VM.real_estate_yes;
+                   
                     var lOVE_ON_Post = new LOVE_ON_Post()
                     {
                         Reactor = Reactor,
