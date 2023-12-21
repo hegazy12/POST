@@ -21,25 +21,28 @@ namespace ProjectEweis.Hubs
         {
             await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", user, message);
         }
-        public  Task GetUser(string userId)
+        public  Task GetUser(string recever)
         {
-           return Groups.AddToGroupAsync(Context.ConnectionId,userId);
+            //var grbName = recever += sender;
+            return Groups.AddToGroupAsync(Context.ConnectionId, recever);
         }
 
-        public Task SendMessageToGroup(string receiver,string sender, string message,string requestId)
+        public Task SendMessageToGroup(string receiverId,string senderId, string message,string requestId)
         {
-            Message message1 = new Message
-            {
-                ReceiverId = receiver,
-                SenderId = sender,
-                RequestId = requestId,
-                Text = message,
-                When = DateTime.Now,
-                Deleted = false
-            };
-            _db.Messages.Add(message1);
-            _db.SaveChanges();
-            return Clients.Group(receiver).SendAsync("ReceiveMessage",sender, message);
+            //Message message1 = new Message
+            //{
+            //    ReceiverId = receiverId,
+            //    SenderId = senderId,
+            //    RequestId = requestId,
+            //    Text = message,
+            //    When = DateTime.Now,
+            //    Deleted = false
+            //};
+            //_db.Messages.Add(message1);
+            //_db.SaveChanges();
+            //var grbName = receiverId += senderId;
+
+            return Clients.Group(receiverId).SendAsync("ReceiveMessage", senderId, message);
         }
 
         public string GetConnectionId()

@@ -134,46 +134,46 @@ namespace ProjectEweis.Controllers
             return Ok(regions);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetMessages()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
+        //[HttpGet]
+        //public async Task<IActionResult> GetMessages()
+        //{
+        //    var currentUser = await _userManager.GetUserAsync(User);
 
-            var messages = await db.Messages.ToListAsync();
+        //    var messages = await db.Messages.ToListAsync();
 
-            return Ok(messages);
-        }
-
-
+        //    return Ok(messages);
+        //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> SendMessages(MessageModel message)
-        {
-            if (ModelState.IsValid)
-            {
-                //message.UserName = User.Identity.Name;
-              //  var sender = await _userManager.GetUserAsync(User);
-                string userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                string email = User.FindFirst(ClaimTypes.Email)?.Value;
-                var userId = User.FindFirst("uid")?.Value;
-                //message.UserId=sender.Id;
-                Message message1 = new Message
-                {
-                    UserName = userName,
-                    When = DateTime.Now,
-                    Text = message.Text,
-                    UserId = userId,
-                    Email=email
 
-                };
-                await db.Messages.AddAsync(message1);
-                await db.SaveChangesAsync();
-                return Ok();
-            }
 
-            return BadRequest();
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> SendMessages(MessageModel message)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //message.UserName = User.Identity.Name;
+        //      //  var sender = await _userManager.GetUserAsync(User);
+        //        string userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //        string email = User.FindFirst(ClaimTypes.Email)?.Value;
+        //        var userId = User.FindFirst("uid")?.Value;
+        //        //message.UserId=sender.Id;
+        //        Message message1 = new Message
+        //        {
+        //            UserName = userName,
+        //            When = DateTime.Now,
+        //            Text = message.Text,
+        //            UserId = userId,
+        //            Email=email
+
+        //        };
+        //        await db.Messages.AddAsync(message1);
+        //        await db.SaveChangesAsync();
+        //        return Ok();
+        //    }
+
+        //    return BadRequest();
+        //}
 
     }
 }

@@ -11,6 +11,6 @@ namespace TestApiJWT.Models
 
         [Required, MaxLength(50),Phone]
         public string PhoneNumber { get; set; }
-        public ICollection<Message> Messages { get; set; }
+      
     }
 }
