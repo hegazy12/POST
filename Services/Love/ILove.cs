@@ -8,5 +8,6 @@ namespace ProjectEweis.Services.Love
     {
         public string ADDlove(LOVEVM lOVEVM);
         public List<LOVE_ON_Post> GetmyListLove(string UserID);
+        public string RemoveFromloveList(string UserID, string IDPOST);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DAL.DBContext;
+using ProjectEweis.Migrations;
 using ProjectEweis.Models;
 using ProjectEweis.ModelView.LOVEVM;
 using System.Numerics;
@@ -55,7 +56,22 @@ namespace ProjectEweis.Services.Love
 
         public List<LOVE_ON_Post> GetmyListLove(string UserID)
         {
-            return _db.LOVE_ON_Post.Where(m => m.Reactor.Id == UserID).ToList();
+            return _db.LOVE_ON_Post.Where(m => m.Reactor.Id == UserID && m.Deleted == 0).ToList();
         }
+
+        public string RemoveFromloveList(string UserID , string IDPOST)
+        {
+            var love_On_POST = _db.LOVE_ON_Post.Where(m=> m.Reactor.Id == UserID  && (m.commercialID ==IDPOST || m.real_estate_noID == IDPOST || m.real_estate_yesID == IDPOST)).First();
+            if(love_On_POST == null)
+            {
+                return "you invaled IDs";
+            }
+            else
+            {
+                love_On_POST.Deleted = 1;
+                _db.SaveChanges();
+                return "you removed from lost love";
+            }
+        } 
     }
 }

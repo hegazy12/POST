@@ -31,11 +31,10 @@ namespace ProjectEweis.Controllers
             return _love.GetmyListLove(IdUser);
         }
 
-        [HttpGet]
-        public string GetStr(string IdUser)
+        [HttpPost]
+        public string RemoveFromloveList(string IdUser , string IdPOST)
         {
-            return  "asas";
+            return _love.RemoveFromloveList(IdUser,IdPOST);
         }
-
     }
 }
