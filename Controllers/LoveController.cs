@@ -31,5 +31,11 @@ namespace ProjectEweis.Controllers
             return _love.GetmyListLove(IdUser);
         }
 
+        [HttpGet]
+        public string GetStr(string IdUser)
+        {
+            return  "asas";
+        }
+
     }
 }
