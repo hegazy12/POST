@@ -16,6 +16,25 @@ namespace ProjectEweis.Services.Request
             _db = db;
         }
 
+  
+        public string AddApprovalRequest(string IdownerofPost, string IdRequest, string status)
+        {
+            var req = _db.Requests.Where(m => m.Id.ToString() == IdRequest).FirstOrDefault();
+            if (req != null )
+            {
+               if(req.real_estate_no.Owner.Id  == IdownerofPost || 
+                  req.real_estate_yes.Owner.Id == IdownerofPost ||
+                  req.commercial.Owner.Id      == IdownerofPost )
+                         {
+                            req.Approvalstate = status;
+                            _db.SaveChanges();
+                            return "you update status effective";
+                         }
+                return "you are not owner";
+            }
+            return "Id request isnot true";
+        }
+
         public string AddrequestForCommercial(UserRequesVM userReques)
         {
             try{
