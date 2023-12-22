@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using TestApiJWT.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ProjectEweis.Models
+namespace Mashrok.Domain
 {
     public class Message
     {
@@ -12,6 +15,6 @@ namespace ProjectEweis.Models
         public DateTime When { get; set; } = DateTime.Now;
         public bool Deleted { get; set; }
         public string RequestId { get; set; }
-       
+
     }
 }

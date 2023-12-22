@@ -1,16 +1,20 @@
-﻿using DAL.DBContext;
+﻿
+using Mashrok.Application.IUnitOfWork;
+using Mashrok.Domain;
 using Microsoft.AspNetCore.SignalR;
-using ProjectEweis.Models;
+
 using ServiceStack;
 
 namespace ProjectEweis.Hubs
 {
     public class ChatHub:Hub
     {
-        private readonly ApplicationDbContext _db;
-        public ChatHub(ApplicationDbContext db)
+        // private readonly ApplicationDbContext _db;
+         private readonly IUnitOfWork _unitOfWork;
+        public ChatHub(/*ApplicationDbContext d*/IUnitOfWork unitOfWork)
         {
-            _db = db;
+            //_db = db;
+            _unitOfWork = unitOfWork;
         }
         public async Task SendMessage(string user ,string message)
         {
@@ -37,8 +41,8 @@ namespace ProjectEweis.Hubs
                 When = DateTime.Now,
                 Deleted = false
             };
-            _db.Messages.Add(message1);
-            _db.SaveChanges();
+          _unitOfWork.MessageRepo.Insert(message1);
+            _unitOfWork.CommitChanges();
             return Clients.Group(receiver).SendAsync("ReceiveMessage",sender, message);
         }
 

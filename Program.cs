@@ -1,4 +1,4 @@
-using DAL.DBContext;
+
 using ProjectEweis.Healper;
 using ProjectEweis.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,13 +9,17 @@ using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Text;
 using TestApiJWT.Models;
-using ProjectEweis.Models;
+
 using ProjectEweis.Services.POST;
 using ProjectEweis.Services.Request;
 using ProjectEweis.Hubs;
 using Microsoft.AspNet.SignalR;
 using IRequest = ProjectEweis.Services.Request.IRequest;
 using ProjectEweis.Services.Love;
+using Mashrok.Infrastructure.UnitOfWork;
+using Mashrok.Application.IUnitOfWork;
+using Mashrok.Domain;
+using Mashrok.Infrastructure;
 
 namespace ProjectEweis
 {
@@ -33,7 +37,7 @@ namespace ProjectEweis
             builder.Services.AddScoped<IRequest, Request>();
             builder.Services.AddScoped<ILove,Love>();
 
-            
+            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddEndpointsApiExplorer();
           
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
