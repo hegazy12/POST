@@ -1,4 +1,5 @@
-﻿using DAL.DBContext;
+﻿
+using Mashrok.Application.IUnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +10,20 @@ namespace ProjectEweis.Controllers
     [ApiController]
     public class POSTController : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
-        public POSTController(ApplicationDbContext db)
+       // private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
+        public POSTController(/*ApplicationDbContext db*/ IUnitOfWork unitOfWork)
         {
-            _db = db;
+            //_db = db;
+            _unitOfWork = unitOfWork;
         }
         [HttpGet]
         public IActionResult GetPOST(string IDPOST)
         {
 
-            var _commercial = _db.commercials.FirstOrDefault(m => m.ID.ToString() == IDPOST);
-            var _yes = _db.real_estate_yess.FirstOrDefault(m => m.ID.ToString() == IDPOST);
-            var _no = _db.real_estate_nos.FirstOrDefault(m => m.ID.ToString() == IDPOST);
+            var _commercial = _unitOfWork.commercialRepo.First(m => m.ID.ToString() == IDPOST);
+            var _yes = _unitOfWork.real_estate_yesRepo.First(m => m.ID.ToString() == IDPOST);
+            var _no = _unitOfWork.real_estate_noRepo.First(m => m.ID.ToString() == IDPOST);
 
             if (_yes != null)
                 return Ok(_yes);

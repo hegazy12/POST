@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ProjectEweis.Models;
+﻿using Mashrok.Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 using System.ComponentModel.DataAnnotations;
 using TestApiJWT.Models;
 

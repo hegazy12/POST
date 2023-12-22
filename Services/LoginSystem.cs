@@ -11,6 +11,7 @@ using Microsoft.AspNet.SignalR.Infrastructure;
 using ProjectEweis.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using ProjectEweis.ModelView.POSTVM;
+using Mashrok.Domain;
 
 namespace ProjectEweis.Services
 {

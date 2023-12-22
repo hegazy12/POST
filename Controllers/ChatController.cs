@@ -1,4 +1,6 @@
-﻿using DAL.DBContext;
+﻿
+using Mashrok.Application.IUnitOfWork;
+using Mashrok.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +10,20 @@ namespace ProjectEweis.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
-        public ChatController(ApplicationDbContext db)
+       //   private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
+        public ChatController(/*ApplicationDbContext db,*/IUnitOfWork unitOfWork)
         {
-            _db = db;
+         //   _db = db;
+           _unitOfWork=unitOfWork;
         }
         [HttpGet("GetMesssages/{requestId}")]
         public IActionResult GetMesssages(string requestId)
         {
             if (requestId != null)
             {
-                var messages=_db.Messages.Where(a => a.RequestId == requestId).ToList();
+                var messages=_unitOfWork.MessageRepo.Fitler(a => a.RequestId == requestId).ToList();
+               // var messages = _db.Messages.Where(a => a.ReceiverId == requestId).ToList();
                 return Ok(messages);
             }
 
