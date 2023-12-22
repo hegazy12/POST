@@ -1,5 +1,6 @@
-﻿using ProjectEweis.Migrations;
-using ProjectEweis.Models;
+﻿using Mashrok.Domain;
+using ProjectEweis.Migrations;
+
 using ProjectEweis.ModelView.RequestVM;
 
 namespace ProjectEweis.Services.Request
@@ -11,7 +12,7 @@ namespace ProjectEweis.Services.Request
         public string AddrequestForCommercial(UserRequesVM userReques);
         public List<UserRequest> GetMyRequests(string IDuser);
         public List<UserRequest> GetRequestsOnPost(string IDRequest);
-        public string AddApprovalRequest(string IdownerofPost, string IdRequest ,string status);
+        public string AddApprovalRequest(string IdownerofPost, string IdRequest, string status);
 
     }
 }

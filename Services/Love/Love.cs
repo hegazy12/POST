@@ -1,6 +1,8 @@
-﻿using DAL.DBContext;
+﻿
+using Mashrok.Application.IUnitOfWork;
+using Mashrok.Domain;
 using ProjectEweis.Migrations;
-using ProjectEweis.Models;
+
 using ProjectEweis.ModelView.LOVEVM;
 using System.Numerics;
 
@@ -8,17 +10,20 @@ namespace ProjectEweis.Services.Love
 {
     public class Love : ILove
     {
-        private readonly ApplicationDbContext _db;
-        public Love(ApplicationDbContext db)
+          // private readonly ApplicationDbContext _db;
+           private readonly IUnitOfWork _unitOfWork;
+        public Love(IUnitOfWork unitOfWork/*, ApplicationDbContext db*/)
         {
-            _db = db;
+          //  _db = db;
+           _unitOfWork=unitOfWork;
+
         }
         public string ADDlove(LOVEVM VM)
         {
-           
 
-            var x = _db.LOVE_ON_Post.Where(m => m.Reactor.Id == VM.Reactor && m.commercialID == VM.commercial &&  m.real_estate_noID == VM.real_estate_no &&  m.real_estate_yesID == VM.real_estate_yes)
-                                                              .ToList();
+
+            var x = _unitOfWork.lOVE_ON_PostRepo.Fitler(m => m.Reactor.Id == VM.Reactor && m.commercialID == VM.commercial && m.real_estate_noID == VM.real_estate_no && m.real_estate_yesID == VM.real_estate_yes);
+                                                              
 
             if (x.Count >= 1)
             {
@@ -26,10 +31,10 @@ namespace ProjectEweis.Services.Love
             }
             else
             {
-                var Reactor = _db.Users.FirstOrDefault(m => m.Id == VM.Reactor);
-                var commercial = _db.commercials.FirstOrDefault(m => m.ID.ToString() == VM.commercial);
-                var real_estate_no = _db.real_estate_nos.FirstOrDefault(m => m.ID.ToString() == VM.real_estate_no);
-                var real_estate_yes = _db.real_estate_yess.FirstOrDefault(m => m.ID.ToString() == VM.real_estate_yes);
+                var Reactor = _unitOfWork.UsersRepo.First(m => m.Id == VM.Reactor);
+                var commercial = _unitOfWork.commercialRepo.First(m => m.ID.ToString() == VM.commercial);
+                var real_estate_no = _unitOfWork.real_estate_noRepo.First(m => m.ID.ToString() == VM.real_estate_no);
+                var real_estate_yes = _unitOfWork.real_estate_yesRepo.First(m => m.ID.ToString() == VM.real_estate_yes);
 
                 if (Reactor != null && (commercial != null || real_estate_no != null || real_estate_yes != null) )
                 {
@@ -42,8 +47,8 @@ namespace ProjectEweis.Services.Love
                         real_estate_yesID = VM.real_estate_yes,
                     };
 
-                    _db.LOVE_ON_Post.Add(lOVE_ON_Post);
-                    _db.SaveChanges();
+                    _unitOfWork.lOVE_ON_PostRepo.Insert(lOVE_ON_Post);
+                    _unitOfWork.CommitChanges();
                     return "you add the offer in love list Successfully";
                 }
                 else
@@ -56,12 +61,12 @@ namespace ProjectEweis.Services.Love
 
         public List<LOVE_ON_Post> GetmyListLove(string UserID)
         {
-            return _db.LOVE_ON_Post.Where(m => m.Reactor.Id == UserID && m.Deleted == 0).ToList();
+            return _unitOfWork.lOVE_ON_PostRepo.Fitler(m => m.Reactor.Id == UserID && m.Deleted == 0).ToList();
         }
 
         public string RemoveFromloveList(string UserID , string IDPOST)
         {
-            var love_On_POST = _db.LOVE_ON_Post.Where(m=> m.Reactor.Id == UserID  && (m.commercialID ==IDPOST || m.real_estate_noID == IDPOST || m.real_estate_yesID == IDPOST)).First();
+            var love_On_POST = _unitOfWork.lOVE_ON_PostRepo.Fitler(m=> m.Reactor.Id == UserID  && (m.commercialID ==IDPOST || m.real_estate_noID == IDPOST || m.real_estate_yesID == IDPOST)).First();
             if(love_On_POST == null)
             {
                 return "you invaled IDs";
@@ -69,7 +74,7 @@ namespace ProjectEweis.Services.Love
             else
             {
                 love_On_POST.Deleted = 1;
-                _db.SaveChanges();
+                _unitOfWork.CommitChanges();
                 return "you removed from lost love";
             }
         } 

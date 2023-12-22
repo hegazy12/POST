@@ -1,4 +1,5 @@
-﻿using ProjectEweis.Models;
+﻿using Mashrok.Domain;
+
 
 namespace ProjectEweis.ModelView.POSTVM
 {

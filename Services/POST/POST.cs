@@ -1,6 +1,7 @@
-﻿using DAL.DBContext;
+﻿
+using Mashrok.Application.IUnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using ProjectEweis.Models;
+
 using ProjectEweis.ModelView.POSTVM;
 
 namespace ProjectEweis.Services.POST
@@ -8,10 +9,12 @@ namespace ProjectEweis.Services.POST
     public class POST : IPOST
     {
         maper maper = new maper();
-        private readonly ApplicationDbContext _db;
-        public POST(ApplicationDbContext db)
+      //  private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
+        public POST(/*ApplicationDbContext db,*/ IUnitOfWork unitOfWork)
         {
-            _db = db;
+           // _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         public string AddCommercialPost(CommercialVM commercialVM)
@@ -19,9 +22,9 @@ namespace ProjectEweis.Services.POST
             try
             {
                 var commercial = maper.MapCommercial(commercialVM);
-                commercial.Owner = _db.Users.FirstOrDefault(u => u.Id == commercialVM.UserId);
-                _db.Add(commercial);
-                _db.SaveChanges();
+                commercial.Owner = _unitOfWork.UsersRepo.First(u => u.Id == commercialVM.UserId);
+               _unitOfWork.commercialRepo.Insert(commercial);
+                _unitOfWork.CommitChanges();
                 return "save ok";
             }
             catch (Exception ex)
@@ -35,9 +38,9 @@ namespace ProjectEweis.Services.POST
             try
             {
                 var real_estate_yes = maper.Mapreal_estate_yes(VM);
-                real_estate_yes.Owner = _db.Users.FirstOrDefault(u => u.Id == VM.UserID);
-                _db.Add(real_estate_yes);
-                _db.SaveChanges();
+                real_estate_yes.Owner = _unitOfWork.UsersRepo.First(u => u.Id == VM.UserID);
+              _unitOfWork.real_estate_yesRepo.Insert(real_estate_yes);
+                _unitOfWork.CommitChanges();
                 return "ok";
             }
             catch (Exception ex)
@@ -51,9 +54,9 @@ namespace ProjectEweis.Services.POST
             try
             {
                 var real_estate_no = maper.Mapreal_estate_no(VM);
-                real_estate_no.Owner= _db.Users.FirstOrDefault(u => u.Id == VM.UserID);
-                _db.Add(real_estate_no);
-                _db.SaveChanges();
+                real_estate_no.Owner= _unitOfWork.UsersRepo.First(u => u.Id == VM.UserID);
+                _unitOfWork.real_estate_noRepo.Insert(real_estate_no);
+                _unitOfWork.CommitChanges();
                 return "ok";
             }
             catch (Exception ex)
@@ -66,9 +69,10 @@ namespace ProjectEweis.Services.POST
         {
             return new AllPosts()
             {
-              commercials     = _db.commercials.Include(m => m.Owner).Where(m=> m.Deleted == 0).ToList(),
-              real_Estate_No  = _db.real_estate_nos.Include(m => m.Owner).Where(m => m.Deleted == 0).ToList(),
-              real_Estate_Yes = _db.real_estate_yess.Include(m => m.Owner).Where(m => m.Deleted == 0).ToList(),
+             // commercials     = _db.commercials.Include(m => m.Owner).Where(m=> m.Deleted == 0).ToList(),
+              commercials     = _unitOfWork.commercialRepo.Fitler(m=> m.Deleted == 0, "Owner").ToList(),
+                real_Estate_No  = _unitOfWork.real_estate_noRepo.Fitler(m => m.Deleted == 0, "Owner").ToList(),
+              real_Estate_Yes = _unitOfWork.real_estate_yesRepo.Fitler(m => m.Deleted == 0, "Owner").ToList(),
              };
         }
 
@@ -76,9 +80,9 @@ namespace ProjectEweis.Services.POST
         {
             return new AllPosts()
             {
-                commercials     = _db.commercials.Include(m=>m.Owner).Where(m=> m.Owner.Id == Iduser && m.Deleted==0).ToList(),
-                real_Estate_No  = _db.real_estate_nos.Include(m => m.Owner).Where(m => m.Owner.Id == Iduser && m.Deleted == 0).ToList(),
-                real_Estate_Yes = _db.real_estate_yess.Include(m => m.Owner).Where(m => m.Owner.Id == Iduser && m.Deleted == 0).ToList(),
+                commercials = _unitOfWork.commercialRepo.Fitler(m => m.Deleted == 0&m.Owner.Id==Iduser, "Owner").ToList(),
+                real_Estate_No = _unitOfWork.real_estate_noRepo.Fitler(m => m.Deleted == 0 & m.Owner.Id == Iduser, "Owner").ToList(),
+                real_Estate_Yes = _unitOfWork.real_estate_yesRepo.Fitler(m => m.Deleted == 0 & m.Owner.Id == Iduser, "Owner").ToList(),
             };
         }
     }

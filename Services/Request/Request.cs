@@ -1,6 +1,8 @@
-﻿using DAL.DBContext;
+﻿
+using Mashrok.Application.IUnitOfWork;
+using Mashrok.Domain;
 using ProjectEweis.Migrations;
-using ProjectEweis.Models;
+
 using ProjectEweis.ModelView.POSTVM;
 using ProjectEweis.ModelView.RequestVM;
 
@@ -10,39 +12,23 @@ namespace ProjectEweis.Services.Request
     {
 
         private readonly ModelView.POSTVM.maper maper = new ModelView.POSTVM.maper();
-        private readonly ApplicationDbContext _db;
-        public Request(ApplicationDbContext db)
+     //   private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
+        public Request(/*ApplicationDbContext db,*/ IUnitOfWork unitOfWork)
         {
-            _db = db;
-        }
+           // _db = db;
+            _unitOfWork = unitOfWork;
 
-  
-        public string AddApprovalRequest(string IdownerofPost, string IdRequest, string status)
-        {
-            var req = _db.Requests.Where(m => m.Id.ToString() == IdRequest).FirstOrDefault();
-            if (req != null )
-            {
-               if(req.real_estate_no.Owner.Id  == IdownerofPost || 
-                  req.real_estate_yes.Owner.Id == IdownerofPost ||
-                  req.commercial.Owner.Id      == IdownerofPost )
-                         {
-                            req.Approvalstate = status;
-                            _db.SaveChanges();
-                            return "you update status effective";
-                         }
-                return "you are not owner";
-            }
-            return "Id request isnot true";
         }
 
         public string AddrequestForCommercial(UserRequesVM userReques)
         {
             try{
                 UserRequest request = maper.MapUserReques(userReques);
-                request.Requester = _db.Users.FirstOrDefault(u => u.Id == userReques.Requester);
-                request.commercial = _db.commercials.FirstOrDefault(u => u.ID.ToString() == userReques.commercial);
-                _db.Add(request);
-                _db.SaveChanges();
+                request.Requester = _unitOfWork.UsersRepo.First(u => u.Id == userReques.Requester);
+                request.commercial = _unitOfWork.commercialRepo.First(u => u.ID.ToString() == userReques.commercial);
+                _unitOfWork.UserRequestRepo.Insert(request);
+                _unitOfWork.CommitChanges();
                 return "it is ok";
             }
             catch (Exception ex)
@@ -56,10 +42,10 @@ namespace ProjectEweis.Services.Request
             try
             {
                 UserRequest request = maper.MapUserReques(userReques);
-                request.Requester = _db.Users.FirstOrDefault(u => u.Id == userReques.Requester);
-                request.real_estate_no = _db.real_estate_nos.FirstOrDefault(u => u.ID.ToString() == userReques.commercial);
-                _db.Add(request);
-                _db.SaveChanges();
+                request.Requester = _unitOfWork.UsersRepo.First(u => u.Id == userReques.Requester);
+                request.real_estate_no = _unitOfWork.real_estate_noRepo.First(u => u.ID.ToString() == userReques.commercial);
+              _unitOfWork.UserRequestRepo.Insert(request);
+                _unitOfWork.CommitChanges();
                 return "it is ok";
             }
             catch (Exception ex)
@@ -73,10 +59,10 @@ namespace ProjectEweis.Services.Request
             try
             {
                 UserRequest request = maper.MapUserReques(userReques);
-                request.Requester = _db.Users.FirstOrDefault(u => u.Id == userReques.Requester);
-                request.real_estate_yes = _db.real_estate_yess.FirstOrDefault(u => u.ID.ToString() == userReques.commercial);
-                _db.Add(request);
-                _db.SaveChanges();
+                request.Requester = _unitOfWork.UsersRepo.First(u => u.Id == userReques.Requester);
+                request.real_estate_yes = _unitOfWork.real_estate_yesRepo.First(u => u.ID.ToString() == userReques.commercial);
+               _unitOfWork.UserRequestRepo.Insert(request);
+                _unitOfWork.CommitChanges();
                 return "it is ok";
             }
             catch (Exception ex)
@@ -87,12 +73,29 @@ namespace ProjectEweis.Services.Request
 
         public List<UserRequest> GetMyRequests(string IDuser)
         {
-            return _db.Requests.Where(m => m.Requester.Id == IDuser).ToList();
+            return _unitOfWork.UserRequestRepo.Fitler(m => m.Requester.Id == IDuser).ToList();
         }      
 
         public List<UserRequest> GetRequestsOnPost(string IDRequest)
         {
-            return _db.Requests.Where(m => m.real_estate_no.ID.ToString() == IDRequest || m.real_estate_yes.ID.ToString() == IDRequest  || m.commercial.ID.ToString() == IDRequest).ToList();
+            return _unitOfWork.UserRequestRepo.Fitler(m => m.real_estate_no.ID.ToString() == IDRequest || m.real_estate_yes.ID.ToString() == IDRequest  || m.commercial.ID.ToString() == IDRequest).ToList();
+        }
+        public string AddApprovalRequest(string IdownerofPost, string IdRequest, string status)
+        {
+            var req = _unitOfWork.UserRequestRepo.Fitler(m => m.Id.ToString() == IdRequest).FirstOrDefault();
+            if (req != null)
+            {
+                if (req.real_estate_no.Owner.Id == IdownerofPost ||
+                   req.real_estate_yes.Owner.Id == IdownerofPost ||
+                   req.commercial.Owner.Id == IdownerofPost)
+                {
+                    req.Approvalstate = status;
+                    _unitOfWork.CommitChanges();
+                    return "you update status effective";
+                }
+                return "you are not owner";
+            }
+            return "Id request isnot true";
         }
     }
 }

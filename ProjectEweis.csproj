@@ -4,6 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +36,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="wwwroot\Photos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Mashrok.Application\Mashrok.Application.csproj" />
+    <ProjectReference Include="Mashrok.Domain\Mashrok.Domain.csproj" />
+    <ProjectReference Include="Mashrok.Infrastructure\Mashrok.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
