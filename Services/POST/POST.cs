@@ -71,8 +71,8 @@ namespace ProjectEweis.Services.POST
             {
              // commercials     = _db.commercials.Include(m => m.Owner).Where(m=> m.Deleted == 0).ToList(),
               commercials     = _unitOfWork.commercialRepo.Fitler(m=> m.Deleted == 0, "Owner").ToList(),
-                real_Estate_No  = _unitOfWork.real_estate_noRepo.Fitler(m => m.Deleted == 0).ToList(),
-              real_Estate_Yes = _unitOfWork.real_estate_yesRepo.Fitler(m => m.Deleted == 0).ToList(),
+                real_Estate_No  = _unitOfWork.real_estate_noRepo.Fitler(m => m.Deleted == 0, "Owner").ToList(),
+              real_Estate_Yes = _unitOfWork.real_estate_yesRepo.Fitler(m => m.Deleted == 0, "Owner").ToList(),
              };
         }
 
@@ -80,9 +80,9 @@ namespace ProjectEweis.Services.POST
         {
             return new AllPosts()
             {
-                commercials = _unitOfWork.commercialRepo.Fitler(m => m.Deleted == 0, "Owner").ToList(),
-                real_Estate_No = _unitOfWork.real_estate_noRepo.Fitler(m => m.Deleted == 0).ToList(),
-                real_Estate_Yes = _unitOfWork.real_estate_yesRepo.Fitler(m => m.Deleted == 0).ToList(),
+                commercials = _unitOfWork.commercialRepo.Fitler(m => m.Deleted == 0&m.Owner.Id==Iduser, "Owner").ToList(),
+                real_Estate_No = _unitOfWork.real_estate_noRepo.Fitler(m => m.Deleted == 0 & m.Owner.Id == Iduser, "Owner").ToList(),
+                real_Estate_Yes = _unitOfWork.real_estate_yesRepo.Fitler(m => m.Deleted == 0 & m.Owner.Id == Iduser, "Owner").ToList(),
             };
         }
     }

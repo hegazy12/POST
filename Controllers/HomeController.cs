@@ -134,6 +134,12 @@ namespace ProjectEweis.Controllers
             return Ok(regions);
         }
 
+        [HttpPost]
+        public async Task<string> AddApprovalRequest(ApproveModel model)
+        {
+            return _Request.AddApprovalRequest(model.IdownerofPost,model.IdRequest,model.status);
+        }
+
         //[HttpGet]
         //public async Task<IActionResult> GetMessages()
         //{

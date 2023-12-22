@@ -22,5 +22,6 @@ namespace Mashrok.Domain
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public int Deleted { get; set; } = 0;
+        public string Approvalstate { get; set; }
     }
 }
