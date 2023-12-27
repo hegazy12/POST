@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Text;
 using TestApiJWT.Models;
-
+using ProjectEweis.Hubs;
 using ProjectEweis.Services.POST;
 using ProjectEweis.Services.Request;
 using ProjectEweis.Hubs;
@@ -20,6 +20,7 @@ using Mashrok.Infrastructure.UnitOfWork;
 using Mashrok.Application.IUnitOfWork;
 using Mashrok.Domain;
 using Mashrok.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ProjectEweis
 {
@@ -36,6 +37,7 @@ namespace ProjectEweis
             builder.Services.AddScoped<IPOST, POST>();
             builder.Services.AddScoped<IRequest, Request>();
             builder.Services.AddScoped<ILove,Love>();
+            
 
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddEndpointsApiExplorer();
@@ -85,6 +87,7 @@ namespace ProjectEweis
 
             app.UseHttpsRedirection();
             app.MapHub<ChatHub>("/chathub");
+            app.MapHub<NotifyHub>("/notifyhub");
             app.UseAuthentication();
             app.UseAuthorization();
 
