@@ -24,6 +24,8 @@ namespace Mashrok.Infrastructure
         public DbSet<Message> Messages { get; set; }
         public DbSet<Partnership_proposal> Partnership_Proposals { get; set; }
         public DbSet<LOVE_ON_Post> LOVE_ON_Post { get; set; }
+
+        public DbSet<Notifacation> Notifacationse { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -41,6 +43,7 @@ namespace Mashrok.Infrastructure
             builder.Entity<real_estate_yes>().ToTable("real_estate_yes", "Post");
             builder.Entity<real_estate_no>().ToTable("real_estate_no", "Post");
             builder.Entity<UserRequest>().ToTable("Requests", "Request");
+            builder.Entity<UserRequest>().ToTable("Notifacation", "Notifacations");
         }
     }
 }

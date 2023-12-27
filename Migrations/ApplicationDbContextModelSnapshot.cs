@@ -211,6 +211,46 @@ namespace ProjectEweis.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("Mashrok.Domain.Notifacation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("NotifyText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotifyType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notifyobject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Post_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Request_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Usr_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("sent")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifacationse");
+                });
+
             modelBuilder.Entity("Mashrok.Domain.Partnership_proposal", b =>
                 {
                     b.Property<int>("Id")
@@ -423,7 +463,7 @@ namespace ProjectEweis.Migrations
 
                     b.HasIndex("real_estate_yesID");
 
-                    b.ToTable("Requests", "Request");
+                    b.ToTable("Notifacation", "Notifacations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

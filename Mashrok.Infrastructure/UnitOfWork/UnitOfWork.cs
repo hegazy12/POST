@@ -25,6 +25,8 @@ namespace Mashrok.Infrastructure.UnitOfWork
             UserRequestRepo = new GenericRepository<UserRequest>(db);
             UsersRepo = new GenericRepository<ApplicationUser>(db);
 
+            NotifacationRepo = new GenericRepository<Notifacation>(db);
+
         }
         public IGenericRepository<commercial> commercialRepo { get; private set; }
         public IGenericRepository<LOVE_ON_Post> lOVE_ON_PostRepo { get; private set; }
@@ -35,6 +37,7 @@ namespace Mashrok.Infrastructure.UnitOfWork
         public IGenericRepository<UserRequest> UserRequestRepo { get; private set; }
         public IGenericRepository<ApplicationUser> UsersRepo { get; private set; }
 
+        public IGenericRepository<Notifacation> NotifacationRepo { get; private set; }
 
         public int CommitChanges()
         {
