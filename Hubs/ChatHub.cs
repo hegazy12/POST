@@ -30,6 +30,9 @@ namespace ProjectEweis.Hubs
            return Groups.AddToGroupAsync(Context.ConnectionId,userId);
         }
 
+
+       
+
         public Task SendMessageToGroup(string receiver,string sender, string message,string requestId)
         {
             Message message1 = new Message
