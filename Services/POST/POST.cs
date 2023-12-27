@@ -11,7 +11,7 @@ namespace ProjectEweis.Services.POST
     public class POST : IPOST
     {
         maper maper = new maper();
-        private IHubContext<NotifyHub> hubContext;
+        //private IHubContext<NotifyHub> hubContext;
       //  private readonly ApplicationDbContext _db;
         private readonly IUnitOfWork _unitOfWork;
         public POST(/*ApplicationDbContext db,*/ IUnitOfWork unitOfWork, IHubContext<NotifyHub> _hubContext)
@@ -30,7 +30,7 @@ namespace ProjectEweis.Services.POST
                _unitOfWork.commercialRepo.Insert(commercial);
                 _unitOfWork.CommitChanges();
               
-                hubContext.Clients.All.SendAsync("NotifyAll");
+                //hubContext.Clients.All.SendAsync("NotifyAll",new Notifacation { NotifyText="hi man",NotifyType="1"});
                 return "save ok";
             }
             catch (Exception ex)
