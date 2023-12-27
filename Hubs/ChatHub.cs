@@ -31,7 +31,10 @@ namespace ProjectEweis.Hubs
         }
 
 
-       
+        public async Task NotifyAll(string hh)
+        {
+            await Clients.All.SendAsync("NotifyAll",hh);
+        }
 
         public Task SendMessageToGroup(string receiver,string sender, string message,string requestId)
         {
