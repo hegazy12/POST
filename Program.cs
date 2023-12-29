@@ -4,23 +4,18 @@ using ProjectEweis.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
 using System.Text;
-using TestApiJWT.Models;
 using ProjectEweis.Hubs;
 using ProjectEweis.Services.POST;
 using ProjectEweis.Services.Request;
-using ProjectEweis.Hubs;
-using Microsoft.AspNet.SignalR;
 using IRequest = ProjectEweis.Services.Request.IRequest;
 using ProjectEweis.Services.Love;
 using Mashrok.Infrastructure.UnitOfWork;
 using Mashrok.Application.IUnitOfWork;
 using Mashrok.Domain;
 using Mashrok.Infrastructure;
-using Microsoft.AspNetCore.SignalR;
+using ProjectEweis.Services.Notification;
 
 namespace ProjectEweis
 {
@@ -31,23 +26,21 @@ namespace ProjectEweis
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
-            builder.Services.AddIdentity<ApplicationUser ,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
 
-            builder.Services.AddScoped<ILoginSystem, LoginSystem>();
-            builder.Services.AddScoped<IPOST, POST>();
-            builder.Services.AddScoped<IRequest, Request>();
+
+            builder.Services.AddScoped<ILoginSystem,LoginSystem>();
+            builder.Services.AddScoped<IPOST,POST>();
+            builder.Services.AddScoped<IRequest,Request>();
             builder.Services.AddScoped<ILove,Love>();
-         
 
-            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddEndpointsApiExplorer();
           
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-            //////////////////Console.WriteLine("rrrrrr");////////////////////////////
-            ///
+            //////////////////Console.WriteLine("rrrrrr");///////////////////////////
+            
             builder.Services.AddSignalR();
 
             builder.Services.AddAuthentication(options =>
@@ -87,7 +80,7 @@ namespace ProjectEweis
 
             app.UseHttpsRedirection();
             app.MapHub<ChatHub>("/chathub");
-         //   app.MapHub<NotifyHub>("/notifyhub");
+
             app.UseAuthentication();
             app.UseAuthorization();
 

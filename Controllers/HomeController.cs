@@ -4,21 +4,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ProjectEweis.Healper;
 using ProjectEweis.Hubs;
-using ProjectEweis.ModelView;
 using ProjectEweis.ModelView.POSTVM;
 using ProjectEweis.ModelView.RequestVM;
+using ProjectEweis.Services.Notification;
 using ProjectEweis.Services.POST;
 using ProjectEweis.Services.Request;
-using System.Security.Claims;
-using TestApiJWT.Models;
+
 
 namespace ProjectEweis.Controllers
 {
-   // [Authorize]
+  //[Authorize]
     [Route("[controller]/[action]")]
     [ApiController]
     public class HomeController : ControllerBase
@@ -26,36 +24,44 @@ namespace ProjectEweis.Controllers
         private readonly IPOST _POST;
         private readonly IRequest _Request;
         private readonly UserManager<ApplicationUser> _userManager;
-     //   private readonly ApplicationDbContext db;
-     
+        private readonly IHubContext<ChatHub> _hubContext;
+        private readonly INotification _Notification;
 
-        public HomeController(IPOST POST , IRequest Request, UserManager<ApplicationUser> userManager/*, ApplicationDbContext _db*/)
+        public HomeController(IPOST POST ,IRequest Request ,UserManager<ApplicationUser> userManager ,  IHubContext<ChatHub> hubContext , INotification Notification )
         {
             _POST = POST;
             _Request = Request;
             _userManager = userManager;
-          //  db = _db;
-          
+            _hubContext = hubContext;
+            _Notification = Notification;
         }
 
         [HttpPost]
         public string AddCommercialPost([FromBody] CommercialVM commercialVM)
         {
-            return _POST.AddCommercialPost(commercialVM);
+                var x = _POST.AddCommercialPost(commercialVM);
+                
+                if (x.Stutes == "save ok")
+                {
+                var xx = _Notification.NtfyAddCommercial(x.IDPost); 
+                _hubContext.Clients.All.SendAsync("Notify", xx);
+                }
+
+                return x.Stutes;
         }
 
 
         [HttpPost]
         public string Addreal_estate_yesPost([FromForm] real_estate_yes_VM VM )
         {
-            return _POST.Addreal_estate_yes(VM);
+            return _POST.Addreal_estate_yes(VM).Stutes;
         }
         
 
         [HttpPost]
         public string Addreal_estate_noPost([FromBody] real_estate_no_VM VM)
         {
-            return _POST.Addreal_estate_no(VM);
+            return _POST.Addreal_estate_no(VM).Stutes;
         }
 
         [HttpGet]
@@ -139,47 +145,5 @@ namespace ProjectEweis.Controllers
         {
             return _Request.AddApprovalRequest(model.IdownerofPost,model.IdRequest,model.status);
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetMessages()
-        //{
-        //    var currentUser = await _userManager.GetUserAsync(User);
-
-        //    var messages = await db.Messages.ToListAsync();
-
-        //    return Ok(messages);
-        //}
-
-
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> SendMessages(MessageModel message)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        //message.UserName = User.Identity.Name;
-        //      //  var sender = await _userManager.GetUserAsync(User);
-        //        string userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //        string email = User.FindFirst(ClaimTypes.Email)?.Value;
-        //        var userId = User.FindFirst("uid")?.Value;
-        //        //message.UserId=sender.Id;
-        //        Message message1 = new Message
-        //        {
-        //            UserName = userName,
-        //            When = DateTime.Now,
-        //            Text = message.Text,
-        //            UserId = userId,
-        //            Email=email
-
-        //        };
-        //        await db.Messages.AddAsync(message1);
-        //        await db.SaveChangesAsync();
-        //        return Ok();
-        //    }
-
-        //    return BadRequest();
-        //}
-
     }
 }
