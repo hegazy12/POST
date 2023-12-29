@@ -10,11 +10,7 @@ namespace ProjectEweis.Services.POST
     {
         maper maper = new maper();
         private readonly IUnitOfWork _unitOfWork;
-        public POST(IUnitOfWork unitOfWork)
-        {
-          
-            _unitOfWork = unitOfWork;
-            
+
         }
 
         public PostReturnVM AddCommercialPost(CommercialVM commercialVM)
@@ -28,14 +24,7 @@ namespace ProjectEweis.Services.POST
                 _unitOfWork.commercialRepo.Insert(commercial);
                 _unitOfWork.CommitChanges();
 
-                var POSTI = _unitOfWork.commercialRepo.
-                    Fitler(m=> m.Owner.Id == commercialVM.UserId).
-                    OrderBy(m=> m.DateCreated).LastOrDefault();
-                
 
-                returnvM.IDPost = POSTI.ID.ToString();
-                returnvM.Stutes = "save ok";
-                return returnvM;
             }
             catch (Exception ex)
             {

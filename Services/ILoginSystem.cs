@@ -9,5 +9,6 @@ namespace ProjectEweis.Services
         Task<AuthModel> GetTokenAsync(TokenRequestModel model);
         Task<string> AddRoleAsync(AddRoleModel model);
         Task<string> UpdateUser(UpdateUser model);
+        Task<AuthModel> ConfirmEmail(string token, string userId);
     }
 }

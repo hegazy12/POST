@@ -12,6 +12,10 @@ using ProjectEweis.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using ProjectEweis.ModelView.POSTVM;
 using Mashrok.Domain;
+using System.Net.Mail;
+using System.Web;
+using MailKit;
+using System.Net;
 
 namespace ProjectEweis.Services
 {
@@ -22,13 +26,15 @@ namespace ProjectEweis.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _jwt;
+        private readonly IConfiguration _configuration;
 
 
-        public LoginSystem(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWT> jwt)
+        public LoginSystem(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWT> jwt, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _jwt = jwt.Value;
+            _configuration = configuration;
 
         }
 
@@ -37,45 +43,67 @@ namespace ProjectEweis.Services
             if (await _userManager.FindByEmailAsync(model.Email) is not null)
                 return new AuthModel { Message = "Email is already registered!" };
 
-            if (await _userManager.FindByNameAsync(model.Username) is not null)
-                return new AuthModel { Message = "Username is already registered!" };
+          
 
             var user = new ApplicationUser
             {
 
-                UserName = model.Username,
+                UserName = new MailAddress(model.Email).User,
                 Email = model.Email,
                 Name = model.Name,
                 PhoneNumber = model.PhoneNumber,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
+            string errors="";
+            if (result.Succeeded)
             {
-                var errors = string.Empty;
+                errors = string.Empty;
+
+                var userfromdb = await _userManager.FindByNameAsync(user.UserName);
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(userfromdb);
+
+                var uriBuilder = new UriBuilder(_configuration["ReturnPaths:ConfirmEmail"]);
+
+                var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                    query["token"] = token;
+                    query["userid"] = userfromdb.Id;
+                    uriBuilder.Query = query.ToString();
+                    var urlString = uriBuilder.ToString();
+
+                MailService mailService = new MailService(new MailAddress(user.Email.Trim()));
+
+                var subject = "Confirmation Email";
+                mailService?.SendMail(urlString, subject);
 
 
-                foreach (var error in result.Errors)
-                    errors += $"{error.Description},";
 
-                return new AuthModel { Message = errors };
+
+                await _userManager.AddToRoleAsync(user, "User");
+
+                var jwtSecurityToken = await CreateJwtToken(user);
+
+                return new AuthModel
+                {
+                    UserId = user.Id,
+                    Message= "تم الاشتراك بنجاح",
+                    Email = user.Email,
+                    ExpiresOn = jwtSecurityToken.ValidTo,
+                    IsAuthenticated = true,
+                    Roles = new List<string> { "User" },
+                    Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                  
+                };
+
+
+                
             }
+            foreach (var error in result.Errors)
+                errors += $"{error.Description},";
 
-            await _userManager.AddToRoleAsync(user, "User");
+            return new AuthModel { Message = errors };
 
-            var jwtSecurityToken = await CreateJwtToken(user);
 
-            return new AuthModel
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                ExpiresOn = jwtSecurityToken.ValidTo,
-                IsAuthenticated = true,
-                Roles = new List<string> { "User" },
-                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                Username = user.UserName,
-            };
         }
 
         public async Task<AuthModel> GetTokenAsync(TokenRequestModel model)
@@ -131,6 +159,27 @@ namespace ProjectEweis.Services
 
 
         }
+
+        public async Task<AuthModel> ConfirmEmail(string token, string userId)
+        {
+            var authModel = new AuthModel();
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+               
+                authModel.Message = "تم التفعيل بنجاح";
+                return authModel;
+            }
+            else
+            {
+               
+                authModel.Message = "خطا في التفعيل";
+                return authModel;
+            }
+        }
+
 
         private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
         {

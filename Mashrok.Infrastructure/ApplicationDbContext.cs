@@ -25,7 +25,6 @@ namespace Mashrok.Infrastructure
         public DbSet<Partnership_proposal> Partnership_Proposals { get; set; }
         public DbSet<LOVE_ON_Post> LOVE_ON_Post { get; set; }
 
-        public DbSet<Notifacation> Notifacationse { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

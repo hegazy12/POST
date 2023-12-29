@@ -12,10 +12,5 @@ namespace Mashrok.Domain
         public int Id { get; set; }
         public string NotifyType { get; set; }
         public string NotifyText { get; set; }
-        public string Notifyobject { get; set; }
-        public string Usr_Id { get; set; }
-        public string Post_Id { get; set; }
-        public string Request_Id { get; set; }
-        public int sent { get; set; }
     }
 }
