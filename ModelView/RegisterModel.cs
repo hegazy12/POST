@@ -10,8 +10,8 @@ namespace TestApiJWT.Models
         [Required, StringLength(100),Phone]
         public string PhoneNumber  { get; set; }
 
-        [Required, StringLength(50)]
-        public string Username { get; set; }
+        //[Required, StringLength(50)]
+        //public string Username { get; set; }
 
         [Required, StringLength(128)]
         public string Email { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 using Mashrok.Application.IUnitOfWork;
 using Mashrok.Domain;
-using ProjectEweis.Migrations;
+//using ProjectEweis.Migrations;
 
 using ProjectEweis.ModelView.LOVEVM;
 using System.Numerics;

@@ -14,11 +14,12 @@ namespace ProjectEweis.Services.POST
         //private IHubContext<NotifyHub> hubContext;
       //  private readonly ApplicationDbContext _db;
         private readonly IUnitOfWork _unitOfWork;
+       
         public POST(/*ApplicationDbContext db,*/ IUnitOfWork unitOfWork, IHubContext<NotifyHub> _hubContext)
         {
            // _db = db;
             _unitOfWork = unitOfWork;
-            hubContext = _hubContext;
+
         }
 
         public string AddCommercialPost(CommercialVM commercialVM)
@@ -27,10 +28,13 @@ namespace ProjectEweis.Services.POST
             {
                 var commercial = maper.MapCommercial(commercialVM);
                 commercial.Owner = _unitOfWork.UsersRepo.First(u => u.Id == commercialVM.UserId);
-               _unitOfWork.commercialRepo.Insert(commercial);
+                _unitOfWork.commercialRepo.Insert(commercial);
                 _unitOfWork.CommitChanges();
-              
-                //hubContext.Clients.All.SendAsync("NotifyAll",new Notifacation { NotifyText="hi man",NotifyType="1"});
+
+                var not = new Notifacation()
+                {
+                    NotifyType = "1",
+                    NotifyText = "new post in commercial type",
                 return "save ok";
             }
             catch (Exception ex)

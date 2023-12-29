@@ -24,6 +24,9 @@ namespace Mashrok.Infrastructure.UnitOfWork
             real_estate_yesRepo = new GenericRepository<real_estate_yes>(db);
             UserRequestRepo = new GenericRepository<UserRequest>(db);
             UsersRepo = new GenericRepository<ApplicationUser>(db);
+            NotifyRepo = new GenericRepository<Notifacation>(db);
+
+            NotifacationRepo = new GenericRepository<Notifacation>(db);
 
         }
         public IGenericRepository<commercial> commercialRepo { get; private set; }
@@ -34,7 +37,9 @@ namespace Mashrok.Infrastructure.UnitOfWork
         public IGenericRepository<real_estate_yes> real_estate_yesRepo { get; private set; }
         public IGenericRepository<UserRequest> UserRequestRepo { get; private set; }
         public IGenericRepository<ApplicationUser> UsersRepo { get; private set; }
+        public IGenericRepository<Notifacation> NotifyRepo { get; private set; }
 
+        public IGenericRepository<Notifacation> NotifacationRepo { get; private set; }
 
         public int CommitChanges()
         {

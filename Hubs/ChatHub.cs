@@ -21,7 +21,12 @@ namespace ProjectEweis.Hubs
             await Clients.All.SendAsync("ReceiveMessage",user, message);
         }
 
-        public async Task SendToUser(string user, string receiverConnectionId, string message)
+      
+    
+
+
+
+    public async Task SendToUser(string user, string receiverConnectionId, string message)
         {
             await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", user, message);
         }
@@ -31,10 +36,10 @@ namespace ProjectEweis.Hubs
         }
 
 
-        public async Task NotifyAll(string hh)
-        {
-            await Clients.All.SendAsync("NotifyAll",hh);
-        }
+        //public async Task NotifyAll(string hh)
+        //{
+        //    await Clients.All.SendAsync("NotifyAll",hh);
+        //}
 
         public Task SendMessageToGroup(string receiver,string sender, string message,string requestId)
         {

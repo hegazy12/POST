@@ -4,13 +4,13 @@
 
 namespace ProjectEweis.Migrations
 {
-    public partial class addemail : Migration
+    public partial class dd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Email",
-                table: "Messages",
+                name: "Notifyobject",
+                table: "Notifacationse",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -19,8 +19,8 @@ namespace ProjectEweis.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Email",
-                table: "Messages");
+                name: "Notifyobject",
+                table: "Notifacationse");
         }
     }
 }

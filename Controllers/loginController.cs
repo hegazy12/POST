@@ -31,6 +31,18 @@ namespace ProjectEweis.Controllers
             return Ok(result);
         }
 
+        [HttpGet("confirmemail")]
+        public async Task<IActionResult> confirmemail(string token, string userid)
+        {
+
+
+          var result=  await _LoginSystem.ConfirmEmail(token, userid);
+
+            
+
+            return Ok(result);
+        }
+
 
         [HttpPost("token")]
         public async Task<IActionResult> GetTokenAsync([FromBody] TokenRequestModel model)

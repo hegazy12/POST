@@ -4,30 +4,32 @@
 
 namespace ProjectEweis.Migrations
 {
-    public partial class addPartnership_proposal : Migration
+    public partial class notifacation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Partnership_Proposals",
+                name: "Notifacations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Islocation_suitable = table.Column<bool>(type: "bit", nullable: false),
-                    Ispartnership_amount_appropriate = table.Column<bool>(type: "bit", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: true)
+                    NotifyType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NotifyText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RequestId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Partnership_Proposals", x => x.Id);
+                    table.PrimaryKey("PK_Notifacations", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Partnership_Proposals");
+                name: "Notifacations");
         }
     }
 }
