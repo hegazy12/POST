@@ -10,11 +10,11 @@ namespace ProjectEweis.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
-       //   private readonly ApplicationDbContext _db;
+       
         private readonly IUnitOfWork _unitOfWork;
-        public ChatController(/*ApplicationDbContext db,*/IUnitOfWork unitOfWork)
+        public ChatController(IUnitOfWork unitOfWork)
         {
-         //   _db = db;
+         
            _unitOfWork=unitOfWork;
         }
         [HttpGet("GetMesssages/{requestId}")]
@@ -23,7 +23,7 @@ namespace ProjectEweis.Controllers
             if (requestId != null)
             {
                 var messages=_unitOfWork.MessageRepo.Fitler(a => a.RequestId == requestId).ToList();
-               // var messages = _db.Messages.Where(a => a.ReceiverId == requestId).ToList();
+           
                 return Ok(messages);
             }
 

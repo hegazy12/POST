@@ -227,8 +227,29 @@ namespace ProjectEweis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Notifyobject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Post_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Request_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Usr_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("sent")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifacationse");
+                });
 
             modelBuilder.Entity("Mashrok.Domain.Partnership_proposal", b =>
                 {

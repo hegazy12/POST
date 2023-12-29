@@ -26,13 +26,14 @@ namespace ProjectEweis
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
-
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddScoped<ILoginSystem,LoginSystem>();
             builder.Services.AddScoped<IPOST,POST>();
             builder.Services.AddScoped<IRequest,Request>();
             builder.Services.AddScoped<ILove,Love>();
-
+            builder.Services.AddScoped<INotification,Notification> ();
+            builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
             builder.Services.AddEndpointsApiExplorer();
           
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -42,7 +43,6 @@ namespace ProjectEweis
             //////////////////Console.WriteLine("rrrrrr");///////////////////////////
             
             builder.Services.AddSignalR();
-
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -52,15 +52,15 @@ namespace ProjectEweis
                 o.RequireHttpsMetadata = false;
                 o.SaveToken = false;
                 o.TokenValidationParameters = new TokenValidationParameters
-                            {
-                                ValidateIssuerSigningKey = true,
-                                ValidateIssuer = true,
-                                ValidateAudience = true,
-                                ValidateLifetime = true,
-                                ValidIssuer = builder.Configuration["JWT:Issuer"],
-                                ValidAudience = builder.Configuration["JWT:Audience"],
-                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
-                            };
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                };
             });
 
 
@@ -80,7 +80,8 @@ namespace ProjectEweis
 
             app.UseHttpsRedirection();
             app.MapHub<ChatHub>("/chathub");
-
+            app.MapHub<NotifyHub>("/notifyhub");
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

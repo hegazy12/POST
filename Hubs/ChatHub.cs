@@ -21,12 +21,7 @@ namespace ProjectEweis.Hubs
             await Clients.All.SendAsync("ReceiveMessage",user, message);
         }
 
-      
-    
-
-
-
-    public async Task SendToUser(string user, string receiverConnectionId, string message)
+        public async Task SendToUser(string user, string receiverConnectionId, string message)
         {
             await Clients.Client(receiverConnectionId).SendAsync("ReceiveMessage", user, message);
         }
@@ -58,6 +53,25 @@ namespace ProjectEweis.Hubs
         {
             return Context.ConnectionId;
         }
-
+        
+        //public async Task NotifyAll()
+        //{
+        //    List<Notifacation> x;
+        //    while (true)
+        //    {  
+        //        x = (List<Notifacation>)_unitOfWork.NotifacationRepo.Fitler(m => m.sent == 0);
+        //        if (x.Count != 0)
+        //        {
+        //            await Clients.All.SendAsync("NotifyAll", x);
+        //            Thread.Sleep(1000);
+        //            foreach (var item in x)
+        //            {
+        //                item.sent = 1;
+        //                _unitOfWork.CommitChanges();
+        //            }
+        //            x = new List<Notifacation>();
+        //        }
+        //    }
+        //}
     }
 }
