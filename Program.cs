@@ -31,13 +31,13 @@ namespace ProjectEweis
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
-            builder.Services.AddIdentity<ApplicationUser ,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentity<ApplicationUser ,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
 
             builder.Services.AddScoped<ILoginSystem, LoginSystem>();
             builder.Services.AddScoped<IPOST, POST>();
             builder.Services.AddScoped<IRequest, Request>();
             builder.Services.AddScoped<ILove,Love>();
-            
+         
 
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddEndpointsApiExplorer();
@@ -86,7 +86,7 @@ namespace ProjectEweis
 
             app.UseHttpsRedirection();
             app.MapHub<ChatHub>("/chathub");
-            app.MapHub<NotifyHub>("/notifyhub");
+         //   app.MapHub<NotifyHub>("/notifyhub");
             app.UseAuthentication();
             app.UseAuthorization();
 

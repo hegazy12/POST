@@ -13,10 +13,9 @@ namespace Mashrok.Domain
         public string NotifyType { get; set; }
         public string NotifyText { get; set; }
         public string UserId { get; set; }
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
         public string  PostId { get; set; }
         public string RequestId { get; set; }
+        public int sent { get; set; }
 
 
 
