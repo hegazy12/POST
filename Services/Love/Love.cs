@@ -10,11 +10,11 @@ namespace ProjectEweis.Services.Love
 {
     public class Love : ILove
     {
-          // private readonly ApplicationDbContext _db;
-           private readonly IUnitOfWork _unitOfWork;
-        public Love(IUnitOfWork unitOfWork/*, ApplicationDbContext db*/)
+          
+        private readonly IUnitOfWork _unitOfWork;
+        public Love(IUnitOfWork unitOfWork)
         {
-          //  _db = db;
+         
            _unitOfWork=unitOfWork;
 
         }
