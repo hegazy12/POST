@@ -24,6 +24,7 @@ namespace Mashrok.Infrastructure
         public DbSet<Message> Messages { get; set; }
         public DbSet<Partnership_proposal> Partnership_Proposals { get; set; }
         public DbSet<LOVE_ON_Post> LOVE_ON_Post { get; set; }
+        public DbSet<Notifacation> Notifacations { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
