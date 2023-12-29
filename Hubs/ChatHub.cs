@@ -78,7 +78,6 @@ namespace ProjectEweis.Hubs
                         item.sent = 1;
                         _unitOfWork.CommitChanges();
                     }
-                    //_unitOfWork.CommitChanges();
                     x = new List<Notifacation>();
                 }
             }
