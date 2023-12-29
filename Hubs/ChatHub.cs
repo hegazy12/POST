@@ -61,28 +61,5 @@ namespace ProjectEweis.Hubs
         {
             return Context.ConnectionId;
         }
-
-        public async Task NotifyAll()
-        {
-            List<Notifacation> x;
-            while (true)
-            {
-
-                x = (List<Notifacation>)_unitOfWork.NotifyRepo.Fitler(m => m.sent == 0);
-                if (x.Count != 0)
-                {
-                    await Clients.All.SendAsync("NotifyAll", x);
-                    //Thread.Sleep(30000);
-                    foreach (var item in x)
-                    {
-                        item.sent = 1;
-                        _unitOfWork.CommitChanges();
-                    }
-                    //_unitOfWork.CommitChanges();
-                    x = new List<Notifacation>();
-                }
-            }
-        }
-
     }
 }

@@ -227,25 +227,8 @@ namespace ProjectEweis.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PostId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RequestId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("sent")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifacations");
-                });
 
             modelBuilder.Entity("Mashrok.Domain.Partnership_proposal", b =>
                 {
@@ -459,7 +442,7 @@ namespace ProjectEweis.Migrations
 
                     b.HasIndex("real_estate_yesID");
 
-                    b.ToTable("Requests", "Request");
+                    b.ToTable("Notifacation", "Notifacations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

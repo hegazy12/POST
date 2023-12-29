@@ -18,7 +18,7 @@ namespace Mashrok.Application.IUnitOfWork
         public IGenericRepository<real_estate_yes> real_estate_yesRepo { get; }
         public IGenericRepository<UserRequest> UserRequestRepo { get; }
         public IGenericRepository<ApplicationUser> UsersRepo { get; }
-        public IGenericRepository<Notifacation> NotifyRepo { get; }
+
         public int CommitChanges();
     }
 }

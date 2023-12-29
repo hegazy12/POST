@@ -4,7 +4,7 @@
 
 namespace ProjectEweis.Migrations
 {
-    public partial class seedrool : Migration
+    public partial class uui : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
