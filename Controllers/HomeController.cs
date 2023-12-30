@@ -54,14 +54,26 @@ namespace ProjectEweis.Controllers
         [HttpPost]
         public string Addreal_estate_yesPost([FromForm] real_estate_yes_VM VM )
         {
-            return _POST.Addreal_estate_yes(VM).Stutes;
+            var x=_POST.Addreal_estate_yes(VM);
+
+            if (x.Stutes == "save ok")
+            {
+                var xx = _Notification.NtfyAddreal_estate_yes(x.IDPost);
+                _hubContext.Clients.All.SendAsync("Notify", xx);
+            }
+            return x.Stutes;
         }
         
 
         [HttpPost]
         public string Addreal_estate_noPost([FromBody] real_estate_no_VM VM)
         {
-            return _POST.Addreal_estate_no(VM).Stutes;
+            var x = _POST.Addreal_estate_no(VM);
+            if(x.Stutes== "save ok")
+            {
+                var xx = _Notification.NtfyAddreal_estate_no(x.IDPost);
+            }
+            return x.Stutes;
         }
 
         [HttpGet]
@@ -80,21 +92,45 @@ namespace ProjectEweis.Controllers
         [HttpPost]
         public string AddRequest_Commercial(UserRequesVM Reques)
         {
-            return _Request.AddrequestForCommercial(Reques);
+            var x= _Request.AddrequestForCommercial(Reques);
+            if (x == "it is ok")
+            {
+                var xx = _Notification.NtfyAddRequest_Commercial(Reques.commercial);
+                _hubContext.Clients.Groups(xx.ToUsers).SendAsync("Notify", xx);
+
+              
+            }
+            return x;
         }
 
 
         [HttpPost]
         public string AddRequest_Real_Estate_Yes(UserRequesVM Reques)
         {
-            return _Request.AddrequestForRealEstateYes(Reques);
+            var x = _Request.AddrequestForRealEstateYes(Reques);
+            if (x == "it is ok")
+            {
+                var xx = _Notification.NtfyAddRequest_Real_Estate_Yes(Reques.real_estate_yes);
+                _hubContext.Clients.Groups(xx.ToUsers).SendAsync("Notify", xx);
+
+
+            }
+            return x;
         }
 
 
         [HttpPost]
         public string AddRequest_Real_Estate_No(UserRequesVM Reques)
         {
-            return _Request.AddrequestForRealEstateNo(Reques);
+            var x = _Request.AddrequestForRealEstateNo(Reques);
+            if (x == "it is ok")
+            {
+                var xx = _Notification.NtfyAddRequest_Real_Estate_No(Reques.real_estate_no);
+                _hubContext.Clients.Groups(xx.ToUsers).SendAsync("Notify", xx);
+
+
+            }
+            return x;
         }
 
 

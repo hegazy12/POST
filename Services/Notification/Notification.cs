@@ -99,7 +99,7 @@ namespace ProjectEweis.Services.Notification
 
             notification.ToUsers.Add(POST.Owner.Id);
 
-            notification.ToUsers.Add(POST.Owner.Id);
+           
 
             notification.ToUsers.AddRange(_unitOfWork.UserRequestRepo.
                 Fitler(m => m.real_estate_no.ID.ToString() == IDPOST)
