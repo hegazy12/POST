@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectEweis.Migrations
 {
-    public partial class yy : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,7 @@ namespace ProjectEweis.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NotifyType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NotifyText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notifyobject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Usr_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Post_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Request_Id = table.Column<string>(type: "nvarchar(max)", nullable: false),

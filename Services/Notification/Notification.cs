@@ -1,4 +1,5 @@
 ﻿using Mashrok.Application.IUnitOfWork;
+using Mashrok.Domain;
 using Nancy.Json;
 using Newtonsoft.Json;
 using NuGet.Protocol;
@@ -24,6 +25,16 @@ namespace ProjectEweis.Services.Notification
         public NotificationVM NtfyAddreal_estate_yes(string IDPOST) 
         {
             NotificationVM notification = new NotificationVM() { NotifyText = "We Add a New POST in Addreal_estate_yes" };
+            Notifacation notification1 = new Notifacation
+            {
+                NotifyText = notification.NotifyText,
+                Notifyobject = notification.Notifyobject,
+                NotifyType = notification.NotifyType,
+                Post_Id = notification.Post_Id,
+                Request_Id = notification.Request_Id,
+                Usr_Id = notification.User_Id,
+                sent = 0
+            };
             notification.Post_Id = IDPOST;
             
             var POST = _unitOfWork.         
@@ -33,12 +44,24 @@ namespace ProjectEweis.Services.Notification
                                          
             notification.Notifyobject = POST.ToJson();
             notification.IsAll = true;
+            _unitOfWork.NotifacationRepo.Insert(notification1);
+            _unitOfWork.CommitChanges();
             return notification;
         }
 
         public NotificationVM NtfyAddCommercial(string IDPOST)
         {
             NotificationVM notification = new NotificationVM() { NotifyText = "We Add a New POST in Commercial" };
+            Notifacation notification1 = new Notifacation
+            {
+                NotifyText = notification.NotifyText,
+                Notifyobject = notification.Notifyobject,
+                NotifyType = notification.NotifyType,
+                Post_Id = notification.Post_Id,
+                Request_Id = notification.Request_Id,
+                Usr_Id = notification.User_Id,
+                sent = 0
+            };
             notification.Post_Id = IDPOST;
             
             var POST = _unitOfWork.
@@ -48,12 +71,24 @@ namespace ProjectEweis.Services.Notification
 
              notification.Notifyobject = JsonConvert.SerializeObject(POST);
             notification.IsAll = true;
+            _unitOfWork.NotifacationRepo.Insert(notification1);
+            _unitOfWork.CommitChanges();
             return notification;
         }
 
         public NotificationVM NtfyAddreal_estate_no(string IDPOST)
         {
             NotificationVM notification = new NotificationVM() { NotifyText = "We Add a New POST in Addreal_estate_no" };
+            Notifacation notification1 = new Notifacation
+            {
+                NotifyText = notification.NotifyText,
+                Notifyobject = notification.Notifyobject,
+                NotifyType = notification.NotifyType,
+                Post_Id = notification.Post_Id,
+                Request_Id = notification.Request_Id,
+                Usr_Id = notification.User_Id,
+                sent = 0
+            };
             notification.Post_Id = IDPOST;
 
             var POST = _unitOfWork.
@@ -64,13 +99,24 @@ namespace ProjectEweis.Services.Notification
             notification.Notifyobject = JsonConvert.SerializeObject(POST);
 
             notification.IsAll = true;
+            _unitOfWork.NotifacationRepo.Insert(notification1);
+            _unitOfWork.CommitChanges();
             return notification;
         }
 
         public NotificationVM NtfyAddRequest_Commercial(string IDPOST)
         {
             NotificationVM notification =  new NotificationVM() { NotifyText = "We Add a New POST in Request_Commercial" };
-           
+            Notifacation notification1 = new Notifacation
+            {
+                NotifyText = notification.NotifyText,
+                Notifyobject = notification.Notifyobject,
+                NotifyType = notification.NotifyType,
+                Post_Id = notification.Post_Id,
+                Request_Id = notification.Request_Id,
+                Usr_Id = notification.User_Id,
+                sent = 0
+            };
             var POST = _unitOfWork.
                         commercialRepo.
                         Fitler(m => m.ID.ToString() == IDPOST).
@@ -85,13 +131,24 @@ namespace ProjectEweis.Services.Notification
             notification.IsAll = false;
 
             notification.Notifyobject = JsonConvert.SerializeObject(POST);
+            _unitOfWork.NotifacationRepo.Insert(notification1);
+            _unitOfWork.CommitChanges();
             return notification;
         }
 
         public NotificationVM NtfyAddRequest_Real_Estate_No(string IDPOST)
         {
             NotificationVM notification = new NotificationVM() { NotifyText = "We Add a New POST in Request_Real_Estate_No" };
-
+            Notifacation notification1 = new Notifacation
+            {
+                NotifyText = notification.NotifyText,
+                Notifyobject = notification.Notifyobject,
+                NotifyType = notification.NotifyType,
+                Post_Id = notification.Post_Id,
+                Request_Id = notification.Request_Id,
+                Usr_Id = notification.User_Id,
+                sent = 0
+            };
             var POST = _unitOfWork.
                         commercialRepo.
                         Fitler(m => m.ID.ToString() == IDPOST).
@@ -108,6 +165,8 @@ namespace ProjectEweis.Services.Notification
             notification.Post_Id = IDPOST;
 
             notification.IsAll = false;
+            _unitOfWork.NotifacationRepo.Insert(notification1);
+            _unitOfWork.CommitChanges();
 
             return notification;
         }
@@ -115,7 +174,16 @@ namespace ProjectEweis.Services.Notification
         public NotificationVM NtfyAddRequest_Real_Estate_Yes(string IDPOST)
         {
             NotificationVM notification = new NotificationVM() { NotifyText = "We Add a New POST in Request_Real_Estate_Yes" };
-            
+            Notifacation notification1 = new Notifacation
+            {
+                NotifyText = notification.NotifyText,
+                Notifyobject = notification.Notifyobject,
+                NotifyType = notification.NotifyType,
+                Post_Id = notification.Post_Id,
+                Request_Id = notification.Request_Id,
+                Usr_Id = notification.User_Id,
+                sent = 0
+            };
             var POST = _unitOfWork.
                         commercialRepo.
                         Fitler(m => m.ID.ToString() == IDPOST).
@@ -130,7 +198,8 @@ namespace ProjectEweis.Services.Notification
             notification.Post_Id = IDPOST;
 
             notification.IsAll = false;
-
+            _unitOfWork.NotifacationRepo.Insert(notification1);
+            _unitOfWork.CommitChanges();
             return notification;
         }
     }

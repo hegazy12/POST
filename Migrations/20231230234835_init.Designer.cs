@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectEweis.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231227181850_yy")]
-    partial class yy
+    [Migration("20231230234835_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,6 +226,10 @@ namespace ProjectEweis.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NotifyType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notifyobject")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
